@@ -18,6 +18,7 @@
 int main(){
     char matrix[ROWS][COLUMNS];
     int posI, posJ;
+    int keypressed=0;
     
     //posicao inicial do personagem
     posI = 0;
@@ -30,7 +31,7 @@ int main(){
     system("cls");
 
     //animação
-    while(1){
+    while(keypressed != ESC){
         gotoxy(0,0);
 
         matrix[posI][posJ] = '\xFE';
@@ -41,6 +42,23 @@ int main(){
         matrix[posI][posJ] = ' ';
         
         if(posI < ROWS-2) posI++;
+
+        //lê as teclas
+        keypressed = 0;
+        if(kbhit()) keypressed = getch();
+        if(keypressed==ARROWS) keypressed = getch();
+        
+
+        switch (keypressed){
+            case TECLA_A:
+            case LEFT: 
+                if(posJ > 0) posJ--; break;
+            case TECLA_D:
+            case RIGHT:
+                if(posJ < (COLUMNS-1)) posJ++; break;
+            
+        }
+
     }
 
     system("pause");

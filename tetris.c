@@ -45,4 +45,5 @@ void bordas(char matrix[ROWS][COLUMNS]){
     }
     
 }
+
  
