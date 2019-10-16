@@ -12,7 +12,7 @@
 */
 #include "tetris.h"
 #include "display.h"
-#define DEBUG 0 // ← alterar se precisar debugar
+#define DEBUG 1 // ← alterar se precisar debugar
 
 
 //          Função principal
@@ -28,7 +28,7 @@ int main(){
     tijolo.tipo = TIPO_I;
     tijolo.orientacao = ORIENTACAO_LEFT;
     tijolo.width = 1;
-    tijolo.height = 4;
+    tijolo.height = 5;
     //inicializando matriz
     init(matrix);
 
@@ -67,13 +67,20 @@ int main(){
             case tecla_D:
             case TECLA_d:
             case RIGHT:
-                if(tijolo.j < (COLUMNS-1)) tijolo.j++; break;
+                if((tijolo.j + (tijolo.width/2)) < (COLUMNS)) tijolo.j++;
+                break;
             case TECLA_ESPACO:
                 if(tijolo.orientacao==ORIENTACAO_RIGHT)
                     tijolo.orientacao = ORIENTACAO_UP;
                 else
                     tijolo.orientacao++;
-        }
+                    //Inverte as dimensões do tijolo
+                    int aux = tijolo.width;
+                    tijolo.width = tijolo.height;
+                    tijolo.height = aux;
+
+                    if(tijolo.j < (tijolo.width/2));
+        }           tijolo.j = tijolo.width/2;
 
     }
 

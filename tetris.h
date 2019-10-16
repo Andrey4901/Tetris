@@ -12,8 +12,8 @@
 #include <conio.h>
 /* Configuração das dimensões da
  matriz pricipal do jogo */
-#define COLUMNS 60
-#define ROWS 25
+#define COLUMNS 30
+#define ROWS 60
 // Teclas
 #define ESC 27
 #define ARROWS 224
