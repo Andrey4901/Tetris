@@ -22,7 +22,7 @@
 #define TECLA_a 97
 #define TECLA_d 100
 #define tecla_A 65
-#define tecla_D 68
+#define TECLA_D 68
 #define TECLA_ESPACO 32
 //Orientações p/ as peças
 #define ORIENTACAO_UP 1

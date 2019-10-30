@@ -27,8 +27,8 @@ int main(){
     tijolo.j = COLUMNS/2;
     tijolo.tipo = TIPO_I;
     tijolo.orientacao = ORIENTACAO_LEFT;
-    tijolo.width = 1;
-    tijolo.height = 5;
+    tijolo.width = 5;
+    tijolo.height = 1;
     //inicializando matriz
     init(matrix);
 
@@ -41,7 +41,8 @@ int main(){
         gotoxy(0,0);
 
         #if DEBUG == 1
-            printf("\xFE = (%d, %d)\n", tijolo.i, tijolo.j);
+            printf("Posicao = \xFE (%d, %d)\n", tijolo.i, tijolo.j);
+            printf("Dimensao = (%d, %d)\n", tijolo.width, tijolo.height);
         #endif
         //desenha o pixel na tela
         drawBar(matrix, tijolo, PIXEL);
@@ -55,34 +56,40 @@ int main(){
         if(tijolo.i < ROWS-2) tijolo.i++;
 
         //lê as teclas
-        keypressed = 0;
-        if(kbhit()) keypressed = getch();
+      keypressed = 0;         
+        if(kbhit()) keypressed = getch();            
         if(keypressed==ARROWS) keypressed = getch();
 
-        switch (keypressed){
-        	case tecla_A:
-            case TECLA_a:
+        switch(keypressed){
+            case (int)'a':
+            case (int)'A':
             case LEFT: 
-                if(tijolo.j > 0) tijolo.j--; break;
-            case tecla_D:
+                if((tijolo.j - (tijolo.width/2)) > 0) tijolo.j--; //vai para esquerda
+            break; 
             case TECLA_d:
-            case RIGHT:
-                if((tijolo.j + (tijolo.width/2)) < (COLUMNS)) tijolo.j++;
-                break;
+            case TECLA_D:
+            case RIGHT: 
+                if((tijolo.j + (tijolo.width/2)) < (COLUMNS-1)) tijolo.j++; //vai para a direita 
+            break; 
             case TECLA_ESPACO:
                 if(tijolo.orientacao==ORIENTACAO_RIGHT)
                     tijolo.orientacao = ORIENTACAO_UP;
                 else
                     tijolo.orientacao++;
-                    //Inverte as dimensões do tijolo
-                    int aux = tijolo.width;
-                    tijolo.width = tijolo.height;
-                    tijolo.height = aux;
 
-                    if(tijolo.j < (tijolo.width/2));
-        }           tijolo.j = tijolo.width/2;
+                //inverte as dimensões do tijolo
+                int aux = tijolo.width;
+                tijolo.width = tijolo.height;
+                tijolo.height = aux;
+                
+                //resolvendo bug dos cantos
+                if(tijolo.j < (tijolo.width/2))
+                    tijolo.j = tijolo.width/2;
+                else if(tijolo.j > COLUMNS - (tijolo.width/2) - 1)
+                    tijolo.j = COLUMNS - (tijolo.width/2) - 1;
+        }
 
-    }
+    }   
 
     system("pause");
 
