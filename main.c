@@ -12,8 +12,6 @@
 */
 #include "tetris.h"
 #include "display.h"
-#define DEBUG 1 // ← alterar se precisar debugar
-
 
 //          Função principal
 
@@ -21,20 +19,16 @@ int main(){
     char matrix[ROWS][COLUMNS];
     Bloco tijolo;
     int keypressed=0;
-    
-    //posicao inicial do personagem
-    tijolo.i = 0;
-    tijolo.j = COLUMNS/2;
-    tijolo.tipo = TIPO_I;
-    tijolo.orientacao = ORIENTACAO_LEFT;
-    tijolo.width = 5;
-    tijolo.height = 1;
-    //inicializando matriz
-    init(matrix);
 
     //apagar o cursor da tela
     ShowConsoleCursor(0);
     system("cls");
+
+    //posicao inicial do personagem
+    initBar(&tijolo);
+
+    //inicializando matriz
+    init(matrix);
 
     //animação
     while(keypressed != ESC){
@@ -52,8 +46,16 @@ int main(){
         //
         //apaga a posição anterior do pixel
         AdrawBar(matrix, tijolo, EMPTY);
-        
-        if(tijolo.i < ROWS-2) tijolo.i++;
+
+        if(!collisionDetect(matrix, tijolo)){
+            drawBar(matrix, tijolo, EMPTY);
+            
+            //faço a posição da @ ir para a direita
+            if(tijolo.i < (ROWS-1)) tijolo.i++;
+
+        }else{
+            initBar(&tijolo);
+        }
 
         //lê as teclas
       keypressed = 0;         
@@ -72,21 +74,8 @@ int main(){
                 if((tijolo.j + (tijolo.width/2)) < (COLUMNS-1)) tijolo.j++; //vai para a direita 
             break; 
             case TECLA_ESPACO:
-                if(tijolo.orientacao==ORIENTACAO_RIGHT)
-                    tijolo.orientacao = ORIENTACAO_UP;
-                else
-                    tijolo.orientacao++;
-
-                //inverte as dimensões do tijolo
-                int aux = tijolo.width;
-                tijolo.width = tijolo.height;
-                tijolo.height = aux;
-                
-                //resolvendo bug dos cantos
-                if(tijolo.j < (tijolo.width/2))
-                    tijolo.j = tijolo.width/2;
-                else if(tijolo.j > COLUMNS - (tijolo.width/2) - 1)
-                    tijolo.j = COLUMNS - (tijolo.width/2) - 1;
+                rotate(&tijolo);
+            break;
         }
 
     }   

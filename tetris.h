@@ -64,3 +64,9 @@ void bordas(char matrix[ROWS][COLUMNS]);
 void drawBar(char matrix[ROWS][COLUMNS], Bloco barra, int simbolo);
 
 void AdrawBar(char matrix[ROWS][COLUMNS], Bloco barra, int simbolo);
+
+void initBar(Bloco *barra);
+
+void rotate(Bloco *bloco);
+
+int collisionDetect(char matrix[ROWS][COLUMNS], Bloco barra);
