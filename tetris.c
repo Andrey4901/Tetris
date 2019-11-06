@@ -124,12 +124,12 @@ int collisionDetect(char matrix[ROWS][COLUMNS], Bloco barra){
     int retorno = 0;
 
     //colisão com a base
-    if((barra.i + barra.height/2) >= (ROWS-1))
+    if((barra.i + 1) >= ROWS)
         retorno = 1;
 
     //colisão entre peças
-    int t1 = barra.height /2;
-    if(matrix[barra.i + t1 + 1][barra.j] != EMPTY)
+   
+    if(matrix[barra.i + 1][barra.j] != EMPTY)
         retorno = 1;
 
     int t2 = barra.width / 2;
