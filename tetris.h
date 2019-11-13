@@ -41,6 +41,12 @@
 #define PIXEL 254 
 #define EMPTY 32 
 
+//mecanismo de colisão
+#define CHECK_SIDE 1
+#define UNCHECK_SIDE 0
+#define NONE 0
+
+
 // Estrutura padrão de componentes
 typedef struct {
     int i; //posic. nas linhas
@@ -63,10 +69,12 @@ void bordas(char matrix[ROWS][COLUMNS]);
 //Desenha a barra usando um caractere ASCII
 void drawBar(char matrix[ROWS][COLUMNS], Bloco barra, int simbolo);
 
-void AdrawBar(char matrix[ROWS][COLUMNS], Bloco barra, int simbolo);
+/* void AdrawBar(char matrix[ROWS][COLUMNS], Bloco barra, int simbolo); */
 
 void initBar(Bloco *barra);
 
 void rotate(Bloco *bloco);
 
 int collisionDetect(char matrix[ROWS][COLUMNS], Bloco barra);
+
+int collisionBar(char matrix[ROWS][COLUMNS], Bloco barra, int collideSides, int side);

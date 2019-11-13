@@ -67,7 +67,7 @@ void drawBar(char matrix[ROWS][COLUMNS], Bloco barra, int simbolo){
     }
 }
 
-void AdrawBar(char matrix[ROWS][COLUMNS], Bloco barra, int simbolo){
+/* void AdrawBar(char matrix[ROWS][COLUMNS], Bloco barra, int simbolo){
     switch(barra.orientacao){
         case ORIENTACAO_DOWN:
         case ORIENTACAO_UP:
@@ -84,7 +84,7 @@ void AdrawBar(char matrix[ROWS][COLUMNS], Bloco barra, int simbolo){
             matrix[barra.i][barra.j] = EMPTY;
             break;
     }
-}
+} */
 
 
 void initBar(Bloco *barra){
@@ -137,6 +137,55 @@ int collisionDetect(char matrix[ROWS][COLUMNS], Bloco barra){
         retorno = 1;
     if(matrix[barra.i+1][barra.j - t2] != EMPTY)
         retorno = 1;
+
+    return retorno;
+}
+
+int collisionBar(char matrix[ROWS][COLUMNS], Bloco barra, int collideSides, int side){
+    int retorno = 0;
+
+    //colisão de base
+    if((barra.i + 1) >= ROWS)
+        retorno = 1;
+
+    //colisão da base da barra com outras peças
+    if(matrix[barra.i + 1][barra.j] =! EMPTY)
+        retorno = 1;
+
+    //colisao com a base horizontal
+    int t2 = barra.width / 2;
+    if(matrix[barra.i+1][barra.j + t2] != EMPTY)
+        retorno = 1;
+    if(matrix[barra.i+1][barra.j - t2] != EMPTY)
+        retorno = 1;
+
+    if(collideSides==CHECK_SIDE && (barra.orientacao == ORIENTACAO_LEFT || barra.orientacao == ORIENTACAO_RIGHT)){
+        if(side==RIGHT && matrix[barra.i][barra.j + t2 + 1] != EMPTY) 
+            retorno = 1;
+
+        if(side==RIGHT && matrix[barra.i][barra.j + t2 + 1] >= EMPTY) 
+            retorno = 1;
+    
+
+    //colisão lateral horizontal
+    if(collideSides == 1 && (barra.orientacao == ORIENTACAO_UP || barra.orientacao == ORIENTACAO_DOWN)){
+        int i;
+        for(i=0; i<barra.height; i++){
+        if(side==RIGHT && matrix[barra.i-i][barra.j + 1] != EMPTY) 
+            retorno = 1;
+
+        if(side==RIGHT && matrix[barra.i-i][barra.j + 1] != EMPTY) 
+            retorno = 1;
+        }
+
+        //verificando colisão com o limite lateral da matriz
+        if(side==RIGHT && barra.j + 1 >= COLUMNS)
+            retorno = 1;
+
+
+        if(side==LEFT && barra.j - t2 - 1 < 0)
+            retorno = 1;
+    }
 
     return retorno;
 }

@@ -45,9 +45,9 @@ int main(){
         bordas(matrix);
         //
         //apaga a posição anterior do pixel
-        AdrawBar(matrix, tijolo, EMPTY);
+        /* AdrawBar(matrix, tijolo, EMPTY); */
 
-        if(!collisionDetect(matrix, tijolo)){
+        if(!collisionBar(matrix, tijolo, UNCHECK_SIDE, NONE)){
             drawBar(matrix, tijolo, EMPTY);
             
             //faço a posição da @ ir para a direita
@@ -66,16 +66,14 @@ int main(){
             case (int)'a':
             case (int)'A':
             case LEFT: 
-                if((tijolo.j - (tijolo.width/2)) > 0)
-                    if(matrix[tijolo.i][tijolo.j - (tijolo.width/2) - 1] == EMPTY)
-                        tijolo.j--; //vai para esquerda
+                if(!collisionBar(matrix, tijolo, CHECK_SIDE, LEFT))
+                    tijolo.j--; //vai para esquerda
             break; 
             case TECLA_d:
             case TECLA_D:
-            case RIGHT: 
-                if((tijolo.j + (tijolo.width/2)) < (COLUMNS-1)) 
-                    if(matrix[tijolo.i][tijolo.j + (tijolo.width/2) + 1] == EMPTY)
-                        tijolo.j++; //vai para a direita 
+            case RIGHT:                
+                if(!collisionBar(matrix, tijolo, CHECK_SIDE, RIGHT))
+                    tijolo.j++; //vai para a direita 
             break; 
             case TECLA_ESPACO:
                 rotate(&tijolo);
