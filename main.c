@@ -1,6 +1,6 @@
 /*
 
-        Jogo interativo Tetris implementado em C para uso 
+        Jogo interativo Car Racing implementado em C para uso 
     no console (terminal de comando)
     
         Para executar:
@@ -13,12 +13,16 @@
 #include "tetris.h"
 #include "display.h"
 
-//          Função principal
-
+/*
+    Parte principal do programa, responsável por iniciar e 
+    chamar as funções auxiliares.
+*/
 int main(){
     char matrix[ROWS][COLUMNS];
     Bloco tijolo;
     int keypressed=0;
+    int cont=0;
+    int velocidade=2;
 
     //apagar o cursor da tela
     ShowConsoleCursor(0);
@@ -30,35 +34,38 @@ int main(){
     //inicializando matriz
     init(matrix);
 
-    //animação
-    while(keypressed != ESC){
+    //animação do jogo
+    while(keypressed != ESC){        
         gotoxy(0,0);
 
         #if DEBUG == 1
-            printf("Posicao = \xFE (%d, %d)\n", tijolo.i, tijolo.j);
-            printf("Dimensao = (%d, %d)\n", tijolo.width, tijolo.height);
+            printf("posicao = (%d, %d)\n", tijolo.i, tijolo.j);
+            printf("dimensao = (%d, %d)\n", tijolo.width, tijolo.height);
         #endif
-        //desenha o pixel na tela
-        drawBar(matrix, tijolo, PIXEL);
-        //
-        printMatrix(matrix);
-        bordas(matrix);
-        //
-        //apaga a posição anterior do pixel
-        /* AdrawBar(matrix, tijolo, EMPTY); */
 
+        //posicionar o @ no meio da tela
+        drawBar(matrix, tijolo, PIXEL);
+
+        //mostro a matriz na tela
+        printMatrix(matrix);
+
+        //faça posição anterior do @ ser apagada
         if(!collisionBar(matrix, tijolo, UNCHECK_SIDE, NONE)){
             drawBar(matrix, tijolo, EMPTY);
             
             //faço a posição da @ ir para a direita
-            if(tijolo.i < (ROWS-1)) tijolo.i++;
+            if(cont%velocidade==0){
+                if(tijolo.i < (ROWS-1)) tijolo.i++;
+            }
 
         }else{
             initBar(&tijolo);
         }
 
-        //lê as teclas
-      keypressed = 0;         
+
+
+        //lendo teclas
+        keypressed = 0;         
         if(kbhit()) keypressed = getch();            
         if(keypressed==ARROWS) keypressed = getch();
 
@@ -71,19 +78,27 @@ int main(){
             break; 
             case TECLA_d:
             case TECLA_D:
-            case RIGHT:                
+            case RIGHT: 
                 if(!collisionBar(matrix, tijolo, CHECK_SIDE, RIGHT))
                     tijolo.j++; //vai para a direita 
             break; 
             case TECLA_ESPACO:
                 rotate(&tijolo);
             break;
+            case 'v':
+                if(velocidade==2){
+                    velocidade = 1;
+                }else{
+                    velocidade = 2;
+                }
         }
 
-    }   
+        cont++;
+    }
 
     system("pause");
 
     return 0;
 }
+
 // . . .
